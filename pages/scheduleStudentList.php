@@ -2,9 +2,8 @@
 session_start();
 
 include_once "../classes/class.php";
-$lesson = new Student;
-$allLessons = $lesson->getAllSchedule();
-
+$students = new Student;
+$registeredStudents = $students->getAllRegStudents($_GET['lessonID']);
 
 ?>
 
@@ -25,39 +24,35 @@ $allLessons = $lesson->getAllSchedule();
 <?php include "navMenuAdmin.php" ?>
 
 <main class="container pt-3">
-  <h1 class="display-4 text-center mb-5">Scedule List <i class="fas fa-clipboard-list"></i> </h1>
-    <table class="table table-hover w-100 mx-auto text-center h5 font-weight-light">
+  <h1 class="display-4 text-center mb-5">Student List <i class="fas fa-clipboard-list"></i> </h1>
+    <table class="table table-hover w-100 mx-auto text-center h5 font-weight-light mt-5">
 
           <thead class="thead-light">
             <tr>
-              <th></th>
-              <th>Lesson Date</th>
-              <th>Lesson Day</th>
-              <th>Lesson Time</th>
-              <th>Lesson Name</th>
-              <th>Teacher</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Course</th>
             </tr>
           </thead>
 
           <tbody>
             <?php
-            while($lessonDets = $allLessons ->fetch_assoc()){
+            while($studentList = $registeredStudents->fetch_assoc()){
             ?>
             <tr>
-              <td><a href="scheduleStudentList.php?lessonID=<?= $lessonDets['id'] ?>"><i class="far fa-laugh"></i></a></td>
-              <td><?= $lessonDets['lesson_date'] ?></td>
-              <td><?= $lessonDets['lesson_day'] ?></td>
-              <td><?= $lessonDets['lesson_time'] ?></td>
-              <td><?= $lessonDets['lesson_name'] ?></td>
-              <td><?= $lessonDets['teacher'] ?></td>                
+              <td><?= $studentList['firstName'] ?></td>  
+              <td><?= $studentList['lastName'] ?></td>   
+              <td><?= $studentList['course'] ?></td>
+                  
             </tr>
-            <tr></tr>
 
             <?php
             }
             ?>
 
           </tbody>
+
+          <a href="allSchedule.php" class="btn btn-outline-dark">BACK</a>
     </table>
 </main>
 

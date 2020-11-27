@@ -199,19 +199,6 @@ class Student extends Database{
     }
   }
 
-  public function getAllLessons(){
-    $sql ="SELECT * FROM lessons
-    ORDER BY lesson_date, lesson_time ASC";
-
-    if($result = $this->conn->query($sql)){
-      return $result;
-      exit;
-    } else{
-      die("Error retrieving all schedule:" .$this->conn->error);  
-    }
-   }
-
-
   public function getAllSchedule(){
     $sql ="SELECT * FROM lessons
     ORDER BY lesson_date, lesson_time ASC";
@@ -268,6 +255,25 @@ class Student extends Database{
       die("Error deleting the registered lesson: " .$this->conn->error);
         }
     }
+  }
+
+  public function getAllRegStudents($id){
+    $sql = "SELECT students.first_name AS firstName,
+    students.last_name AS lastName,
+    students.course AS course
+    FROM schedule
+    INNER JOIN lessons
+    ON schedule.lesson_id = lessons.id 
+    INNER JOIN students
+    ON schedule.student_id = students.id
+    WHERE schedule.lesson_id = $id";
+
+    if($result = $this->conn->query($sql)){
+        return $result;
+      } else{
+        die("Error retrieving all the registered students:" .$this->conn->error);
+      }
+
   }
 
 }
